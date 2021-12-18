@@ -8,7 +8,7 @@ Console.WriteLine(topTable);
 
 int startSize = 32;
 benchmark.Start(startSize);
-for (int i = 1; i < 512; i*=2)
+for (int i = 1; i < 128; i*=2)
 {
     benchmark.Start(i * startSize);
 }

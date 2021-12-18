@@ -82,7 +82,7 @@ namespace OpenCLTest
             //Начало вычислений на CPU
             Stopwatch stopwatch2 = new Stopwatch();
             stopwatch2.Start();
-            /*
+            
             //Вычисления
             for (int i = 0; i < intSize; i++)
             {
@@ -100,7 +100,7 @@ namespace OpenCLTest
                     r4[i, j] = s;
                 }
             }
-        */
+        
             stopwatch2.Stop();
         
             //Расчет ошибки
@@ -110,7 +110,7 @@ namespace OpenCLTest
             {
                 for (int j = 0; j < intSize; j++)
                 {
-                //    if (r3[i, j] != r4[i, j]) errors++;
+                    if (r3[i, j] != r4[i, j]) errors++;
 
                 }
             }
