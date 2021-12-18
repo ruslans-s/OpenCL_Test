@@ -110,7 +110,11 @@ namespace OpenCLTest
             {
                 for (int j = 0; j < intSize; j++)
                 {
-                    if (r3[i, j] != r4[i, j]) errors++;
+                    if ((r3[i, j] - r4[i, j]) > 0.001)
+                    {
+                        errors++;
+                       
+                    }
 
                 }
             }
