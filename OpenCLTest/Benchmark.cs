@@ -12,7 +12,6 @@ namespace OpenCLTest
         public void Start(float size)
         {
 
-           
             int intSize = (int)size;
 
             //Создаем массивы
@@ -83,6 +82,7 @@ namespace OpenCLTest
             Stopwatch stopwatch2 = new Stopwatch();
             stopwatch2.Start();
             
+            
             //Вычисления
             for (int i = 0; i < intSize; i++)
             {
@@ -119,10 +119,26 @@ namespace OpenCLTest
                 }
             }
 
-
+            
             //Вывод
             float ratio = (float)stopwatch2.ElapsedMilliseconds / (float)stopwatch.ElapsedMilliseconds;
             Console.WriteLine("|{0}\t|{1}\t\t|{2}\t\t|{3}\t|{4}", size, stopwatch2.ElapsedMilliseconds, stopwatch.ElapsedMilliseconds, errors, ratio);
+
+            //Для GPU
+            x3 = null;
+             y3 = null;
+             r3 = null;
+            //Для CPu
+             x4 = null;
+             y4 = null;
+             r4 = null;
+
+            //Временные массивы 
+           x3_temp = null;
+             y3_temp = null;
+            r3_temp = null;
+
+
         }
 
         public void Initialization()
