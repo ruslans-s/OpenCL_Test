@@ -3,18 +3,20 @@
 Console.WriteLine("Start");
 Benchmark benchmark = new Benchmark();
 
-benchmark.Initialization();
+int startSize = 32;
+int maxFloatSize = 4096;
+
+benchmark.Initialization(maxFloatSize);
 
 string topTable = "|Size\t|CPU time\t|GPU time\t|Errors\t|ratio\t|";
 Console.WriteLine(topTable);
 
-int startSize = 32;
 
 benchmark.Start(startSize);
-for (int i = 16; i < 256; i*=2)
+for (int i = startSize; i < maxFloatSize; i*=2)
 {
     
-    benchmark.Start(i * startSize);
+    benchmark.Start(i);
 }
 
 Console.WriteLine("End");

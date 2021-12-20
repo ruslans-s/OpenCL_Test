@@ -9,6 +9,18 @@ namespace OpenCLTest
         private OpenCLCompiler compiler;
         private dynamic exec;
 
+        float[,] x3;
+        float[,] y3;
+        float[,] r3;
+        //Для CPu
+        float[,] x4;
+        float[,] y4;
+        float[,] r4;
+
+        float[] x3_temp ;
+        float[] y3_temp ;
+        float[] r3_temp ;
+        int maxFloatSize;
         public void Start(float size)
         {
 
@@ -16,13 +28,35 @@ namespace OpenCLTest
 
             //Создаем массивы
             //Для GPU
-            float[,] x3 = new float[intSize, intSize];
-            float[,] y3 = new float[intSize, intSize];
-            float[,] r3 = new float[intSize, intSize];
-            //Для CPu
-            float[,] x4;
-            float[,] y4;
-            float[,] r4 = new float[intSize, intSize];
+            if(x3 != null)
+            {
+                Array.Clear(x3);
+                Array.Clear(y3);
+                Array.Clear(r3);
+
+                Array.Clear(x4);
+                Array.Clear(y4);
+                Array.Clear(r4);
+
+                Array.Clear(x3_temp);
+                Array.Clear(y3_temp);
+                Array.Clear(r3_temp);
+            } 
+            else
+            {
+                x3 = new float[maxFloatSize, maxFloatSize];
+                y3 = new float[maxFloatSize, maxFloatSize];
+                r3 = new float[maxFloatSize, maxFloatSize];
+                r4 = new float[maxFloatSize, maxFloatSize];
+
+                //Временные массивы 
+                x3_temp = new float[maxFloatSize * maxFloatSize];
+                y3_temp = new float[maxFloatSize * maxFloatSize];
+                r3_temp = new float[maxFloatSize * maxFloatSize];
+            }
+
+        
+
             //Создаем рандом
             Random rnd = new Random();
 
@@ -44,10 +78,7 @@ namespace OpenCLTest
             Stopwatch stopwatch = new Stopwatch();  
             stopwatch.Start();
           
-            //Временные массивы 
-            float[] x3_temp = new float[intSize * intSize];
-            float[] y3_temp = new float[intSize * intSize];
-            float[] r3_temp = new float[intSize * intSize];
+         
 
             //Переводим массивы из 2D в 1D
             int count = 0;
@@ -82,7 +113,7 @@ namespace OpenCLTest
             Stopwatch stopwatch2 = new Stopwatch();
             stopwatch2.Start();
             
-            
+            /*
             //Вычисления
             for (int i = 0; i < intSize; i++)
             {
@@ -99,7 +130,7 @@ namespace OpenCLTest
 
                     r4[i, j] = s;
                 }
-            }
+            }*/
         
             stopwatch2.Stop();
         
@@ -124,26 +155,12 @@ namespace OpenCLTest
             float ratio = (float)stopwatch2.ElapsedMilliseconds / (float)stopwatch.ElapsedMilliseconds;
             Console.WriteLine("|{0}\t|{1}\t\t|{2}\t\t|{3}\t|{4}", size, stopwatch2.ElapsedMilliseconds, stopwatch.ElapsedMilliseconds, errors, ratio);
 
-            //Для GPU
-            x3 = null;
-             y3 = null;
-             r3 = null;
-            //Для CPu
-             x4 = null;
-             y4 = null;
-             r4 = null;
-
-            //Временные массивы 
-           x3_temp = null;
-             y3_temp = null;
-            r3_temp = null;
-
-
         }
 
-        public void Initialization()
+        public void Initialization(int maxFloatSize2)
         {
-           
+            maxFloatSize = maxFloatSize2;
+
             compiler = new OpenCLCompiler();
             Console.WriteLine("\nList Devices----");
 
@@ -159,12 +176,7 @@ namespace OpenCLTest
             compiler.UseDevice(0);
             compiler.CompileKernel(typeof(Kernels));
 
-            /*
-            Console.WriteLine("\nList Kernels----");
-            foreach (var item in compiler.Kernels)
-            {
-                Console.WriteLine(item);
-            }*/
+
 
             exec = compiler.GetExec();
         }
